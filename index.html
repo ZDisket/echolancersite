@@ -1,147 +1,506 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Echolancer</title>
-  <meta name="description" content="Short demo page showcasing TTS samples with links to GitHub, Substack, and a Colab notebook." />
+  <meta name="description"
+    content="Short demo page showcasing TTS samples with links to GitHub, Substack, and a Colab notebook." />
   <meta property="og:title" content="Echolancer" />
   <meta property="og:description" content="Listen to model samples and grab the code / notebook." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#0ea5e9" />
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F0K2PC2D0W"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-F0K2PC2D0W');
+  </script>
+
   <style>
-    :root{
+    :root {
       --bg: #0b0f14;
       --bg-elev: #101720;
       --text: #e6edf3;
       --muted: #93a4b5;
-      --brand: #0ea5e9; /* cyan-500 */
-      --brand-2: #8b5cf6; /* violet-500 */
-      --card: #0f172a; /* slate-900 */
-      --ring: rgba(14,165,233,.45);
+      --brand: #0ea5e9;
+      /* cyan-500 */
+      --brand-2: #8b5cf6;
+      /* violet-500 */
+      --card: #0f172a;
+      /* slate-900 */
+      --ring: rgba(14, 165, 233, .45);
       --success: #22c55e;
       --warn: #f59e0b;
       --radius: 16px;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
     }
-    @media (prefers-color-scheme: light){
-      :root{
+
+    @media (prefers-color-scheme: light) {
+      :root {
         --bg: #f6f8fb;
         --bg-elev: #ffffff;
         --text: #0b1220;
         --muted: #475569;
         --card: #ffffff;
-        --shadow: 0 10px 30px rgba(2,6,23,.08);
+        --shadow: 0 10px 30px rgba(2, 6, 23, .08);
       }
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 800px at 10% -10%, rgba(14,165,233,.15), transparent 60%),
-                  radial-gradient(1000px 600px at 110% 10%, rgba(139,92,246,.12), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-      line-height:1.55;
-      letter-spacing:.2px;
-    }
-    a{ color: var(--brand); text-decoration: none; }
-    a:hover{ text-decoration: underline; }
 
-    .container{ max-width:1100px; margin:0 auto; padding:28px 20px 80px; }
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% -10%, rgba(14, 165, 233, .15), transparent 60%),
+        radial-gradient(1000px 600px at 110% 10%, rgba(139, 92, 246, .12), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      letter-spacing: .2px;
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
 
     /* --- Header / Intro --- */
-    header{
-      display:grid; gap:24px; align-items:center;
-      grid-template-columns: 1fr; text-align:center; padding: 24px 0 8px;
+    header {
+      display: grid;
+      gap: 24px;
+      align-items: center;
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: 24px 0 8px;
     }
-    .logo{
-      width:56px; height:56px; display:inline-grid; place-items:center; margin:0 auto 6px;
+
+    .logo {
+      width: 56px;
+      height: 56px;
+      display: inline-grid;
+      place-items: center;
+      margin: 0 auto 6px;
       background: conic-gradient(from 210deg, var(--brand), var(--brand-2));
-      color:white; border-radius:14px; box-shadow: var(--shadow);
-      font-weight:800; letter-spacing: .5px;
+      color: white;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      font-weight: 800;
+      letter-spacing: .5px;
     }
-    h1{ margin: 10px 0 6px; font-size: clamp(26px, 4.4vw, 44px); letter-spacing:.4px; }
-    .sub{ color:var(--muted); font-size: clamp(14px, 2vw, 18px); }
+
+    h1 {
+      margin: 10px 0 6px;
+      font-size: clamp(26px, 4.4vw, 44px);
+      letter-spacing: .4px;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 18px);
+    }
 
     /* --- Badges Row --- */
-    .badges{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin:18px 0 4px; }
-    .badge{
-      --b1: var(--brand); --b2: var(--brand-2);
-      display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px;
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin: 18px 0 4px;
+    }
+
+    .badge {
+      --b1: var(--brand);
+      --b2: var(--brand-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
       background: linear-gradient(120deg, color-mix(in srgb, var(--b1), transparent 8%), color-mix(in srgb, var(--b2), transparent 8%));
       border: 1px solid color-mix(in srgb, var(--b1), var(--b2) 50%);
-      color:white; font-weight:600; letter-spacing:.2px; box-shadow: var(--shadow);
-      transition: transform .15s ease; will-change: transform;
+      color: white;
+      font-weight: 600;
+      letter-spacing: .2px;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease;
+      will-change: transform;
     }
-    .badge:hover{ transform: translateY(-1px); text-decoration:none; }
-    .badge .icon{ width:18px; height:18px; display:inline-block; }
-    .github{ --b1:#24292e; --b2:#3b82f6; }
-    .substack{ --b1:#ff6a33; --b2:#fb923c; }
-    .colab{ --b1:#f59e0b; --b2:#f97316; }
+
+    .badge:hover {
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .badge .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+    }
+
+    .github {
+      --b1: #24292e;
+      --b2: #3b82f6;
+    }
+
+    .substack {
+      --b1: #ff6a33;
+      --b2: #fb923c;
+    }
+
+    .colab {
+      --b1: #f59e0b;
+      --b2: #f97316;
+    }
 
     /* --- Section Title --- */
-    .section{ margin-top: 42px; }
-    .section h2{ font-size: clamp(20px, 3.4vw, 28px); margin:0 0 14px; }
-    .section p.lead{ color:var(--muted); margin-top:0; }
+    .section {
+      margin-top: 42px;
+    }
+
+    .section h2 {
+      font-size: clamp(20px, 3.4vw, 28px);
+      margin: 0 0 14px;
+    }
+
+    .section p.lead {
+      color: var(--muted);
+      margin-top: 0;
+    }
 
     /* --- Samples Grid --- */
-    .grid{
-      display:grid; gap:16px;
+    .grid {
+      display: grid;
+      gap: 16px;
       grid-template-columns: repeat(12, 1fr);
     }
-    .card{
+
+    .card {
       grid-column: span 12;
       background: linear-gradient(180deg, color-mix(in srgb, var(--card), transparent 10%), var(--card));
       border: 1px solid color-mix(in srgb, var(--brand), var(--card) 85%);
       border-radius: var(--radius);
-      padding:16px; box-shadow: var(--shadow);
+      padding: 16px;
+      box-shadow: var(--shadow);
     }
-    .card:hover{ border-color: color-mix(in srgb, var(--brand), var(--card) 75%); }
-    .prompt{ font-weight:600; margin:0 0 10px; font-size:16px; }
-    .meta{ color:var(--muted); font-size:13px; margin:0 0 12px; display:flex; gap:10px; flex-wrap:wrap; }
-    audio{ width:100%; height:36px; outline:none; accent-color: var(--brand); }
+
+    .card:hover {
+      border-color: color-mix(in srgb, var(--brand), var(--card) 75%);
+    }
+
+    .prompt {
+      font-weight: 600;
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    audio {
+      width: 100%;
+      height: 36px;
+      outline: none;
+      accent-color: var(--brand);
+    }
 
     /* two columns on md, three on lg */
-    @media (min-width:720px){ .card{ grid-column: span 6; } }
-    @media (min-width:1040px){ .card{ grid-column: span 4; } }
+    @media (min-width:720px) {
+      .card {
+        grid-column: span 6;
+      }
+    }
+
+    @media (min-width:1040px) {
+      .card {
+        grid-column: span 4;
+      }
+    }
+
+    /* --- Model Diagram --- */
+    .diagram-container {
+      margin: 32px 0;
+      text-align: center;
+    }
+
+    .diagram-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid color-mix(in srgb, var(--brand), var(--card) 85%);
+    }
+
+    .diagram-caption {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    /* --- Zero-Shot Cards --- */
+    .zs-card {
+      grid-column: span 12;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--card), transparent 10%), var(--card));
+      border: 1px solid color-mix(in srgb, var(--brand-2), var(--card) 85%);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .zs-card:hover {
+      border-color: color-mix(in srgb, var(--brand-2), var(--card) 75%);
+    }
+
+    .zs-title {
+      font-weight: 700;
+      margin: 0 0 16px;
+      font-size: 18px;
+      color: var(--brand-2);
+    }
+
+    .reference-section {
+      padding: 12px;
+      background: color-mix(in srgb, var(--brand-2), transparent 92%);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid color-mix(in srgb, var(--brand-2), transparent 80%);
+    }
+
+    .reference-label {
+      font-weight: 600;
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: var(--brand-2);
+    }
+
+    .sample-item {
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid color-mix(in srgb, var(--muted), transparent 85%);
+    }
+
+    .sample-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .sample-text {
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    @media (min-width:900px) {
+      .zs-card {
+        grid-column: span 4;
+      }
+    }
 
     /* --- Footer --- */
-    footer{ margin-top:44px; color:var(--muted); font-size:14px; text-align:center; }
-    .note{ margin-top:8px; }
+    footer {
+      margin-top: 44px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .note {
+      margin-top: 8px;
+    }
 
     /* --- Utility --- */
-    .pill{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; border:1px solid #1f2937; }
-    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #1f2937;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header>
       <div class="logo" aria-hidden="true">TT</div>
       <h1>Echolancer · Text‑to‑Speech Samples</h1>
-      <p class="sub">Lightweight, finetune‑friendly (soon) TTS. Below are curated samples across voices and prompts. Grab the code, read the write‑up, or try it in Colab.</p>
+      <p class="sub">Lightweight, finetune‑friendly (soon) TTS. Below are curated samples across voices and prompts.
+        Grab the code, read the write‑up, or try it in Colab. We release code and checkpoints under the MIT license.</p>
       <nav class="badges" aria-label="Project links">
         <!-- Replace the href values with your real URLs -->
         <a class="badge github" href="https://github.com/ZDisket/Echolancer" target="_blank" rel="noopener">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.2-1.1-1.6-1.1-1.6-.9-.6.1-.6.1-.6 1 .1 1.6 1 1.6 1 .9 1.6 2.5 1.1 3.1.8.1-.6.4-1.1.7-1.4-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.5 1.3-3.4-.1-.3-.6-1.6.1-3.3 0 0 1.2-.4 3.6 1.3 1.1-.3 2.3-.4 3.5-.4s2.4.1 3.5.4c2.4-1.7 3.6-1.3 3.6-1.3.7 1.7.2 3 .1 3.3.8.9 1.3 2 1.3 3.4 0 4.7-2.8 5.7-5.5 6 .4.3.7.9.7 1.8v2.6c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M12 .5A11.5 11.5 0 0 0 .5 12.3c0 5.2 3.4 9.6 8.1 11.2.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.2-1.1-1.6-1.1-1.6-.9-.6.1-.6.1-.6 1 .1 1.6 1 1.6 1 .9 1.6 2.5 1.1 3.1.8.1-.6.4-1.1.7-1.4-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.5 1.3-3.4-.1-.3-.6-1.6.1-3.3 0 0 1.2-.4 3.6 1.3 1.1-.3 2.3-.4 3.5-.4s2.4.1 3.5.4c2.4-1.7 3.6-1.3 3.6-1.3.7 1.7.2 3 .1 3.3.8.9 1.3 2 1.3 3.4 0 4.7-2.8 5.7-5.5 6 .4.3.7.9.7 1.8v2.6c0 .3.2.7.8.6 4.7-1.6 8.1-6 8.1-11.2A11.5 11.5 0 0 0 12 .5Z" />
+          </svg>
           <span>GitHub</span>
         </a>
-        <a class="badge substack" href="https://zdtech.substack.com/p/echolancer-yet-another-text-to-speech" target="_blank" rel="noopener">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5h18v2H3v-2Zm0 4h18v11l-9-3-9 3v-11Z"/></svg>
-          <span>Substack</span>
+        <a class="badge substack" href="https://github.com/ZDisket/Echolancer/blob/master/docs/EcholancerTE-Repo.pdf"
+          target="_blank" rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15h8v2H8v-2zm0-4h8v2H8v-2zm0-4h5v2H8V7z" />
+          </svg>
+          <span>Technical Report</span>
         </a>
-        <a class="badge colab" href="https://colab.research.google.com/drive/118n_iDb3WZz3WPCKCDWnbdho1dp-mh65?usp=sharing" target="_blank" rel="noopener">
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7.5 7a4.5 4.5 0 1 1 0 9h-3v-2h3a2.5 2.5 0 1 0 0-5h-3V7h3Zm9 0a4.5 4.5 0 0 0 0 9h3v-2h-3a2.5 2.5 0 1 1 0-5h3V7h-3Z"/></svg>
+        <a class="badge colab"
+          href="https://colab.research.google.com/drive/1DzclkPa9mA73aGYbi4ELdweerYsG8w4l?usp=sharing" target="_blank"
+          rel="noopener">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M7.5 7a4.5 4.5 0 1 1 0 9h-3v-2h3a2.5 2.5 0 1 0 0-5h-3V7h3Zm9 0a4.5 4.5 0 0 0 0 9h3v-2h-3a2.5 2.5 0 1 1 0-5h3V7h-3Z" />
+          </svg>
           <span>Open in Colab</span>
         </a>
       </nav>
     </header>
 
+    <!-- Model Diagram -->
+    <section class="diagram-container">
+      <img src="model_diagram.png" alt="Echolancer Model Architecture Diagram" />
+      <p class="diagram-caption">Figure 1: Echolancer during pretraining. (not counting speaker conditioning)</p>
+    </section>
+
+    <!-- Zero-Shot Voice Cloning Section -->
+    <section class="section" id="zero-shot">
+      <h2>Zero-Shot Voice Cloning</h2>
+      <p class="lead">Clone any voice with just a short reference clip. Each box shows a reference audio and three
+        cloned samples from the 1.3B model, all reference speakers were unseen in training.</p>
+
+      <div class="grid">
+        <!-- Zero-Shot Card 1 -->
+        <article class="zs-card">
+          <h3 class="zs-title">Tucker</h3>
+
+          <div class="reference-section">
+            <div class="reference-label">Reference Clip</div>
+            <audio controls preload="none" src="samples/zs_ref_1.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"It wasn’t a big deal at first, just a small inconvenience, but after a while it
+              started adding up, and that’s when things got a little frustrating."</p>
+            <audio controls preload="none" src="samples/zs_1_sample_1.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"I get what you’re saying, and I’m not disagreeing, but there’s a part of me that
+              still thinks we should take a moment to reassess everything."</p>
+            <audio controls preload="none" src="samples/zs_1_sample_2.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"She sells sea shells by the seashore. Yeah, try saying that fast."</p>
+            <audio controls preload="none" src="samples/zs_1_sample_3.wav"></audio>
+          </div>
+        </article>
+
+        <!-- Zero-Shot Card 2 -->
+        <article class="zs-card">
+          <h3 class="zs-title">Elon</h3>
+
+          <div class="reference-section">
+            <div class="reference-label">Reference Clip</div>
+            <audio controls preload="none" src="samples/zs_ref_2.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"Mount Everest, located in the Himalayas on the border between Nepal and China,
+              remains the highest point on Earth above sea level."</p>
+            <audio controls preload="none" src="samples/zs_2_sample_1.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"The Roman Empire reached its greatest territorial extent under Emperor Trajan,
+              stretching from the Atlantic coast of Portugal to the deserts of Mesopotamia."</p>
+            <audio controls preload="none" src="samples/zs_2_sample_2.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"The International Space Station is a modular laboratory orbiting Earth at an
+              altitude of approximately four hundred kilometers, completing one revolution roughly every ninety
+              minutes."</p>
+            <audio controls preload="none" src="samples/zs_2_sample_3.wav"></audio>
+          </div>
+        </article>
+
+        <!-- Zero-Shot Card 3 -->
+        <article class="zs-card">
+          <h3 class="zs-title">Obama</h3>
+
+          <div class="reference-section">
+            <div class="reference-label">Reference Clip</div>
+            <audio controls preload="none" src="samples/zs_ref_3.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"Photosynthesis is the biological process by which plants, algae, and some bacteria
+              convert sunlight into chemical energy, producing oxygen as a byproduct."</p>
+            <audio controls preload="none" src="samples/zs_3_sample_1.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"The city of Tokyo is considered one of the most populous metropolitan areas in the
+              world, serving as a major center of finance, culture, and technology."</p>
+            <audio controls preload="none" src="samples/zs_3_sample_2.wav"></audio>
+          </div>
+
+          <div class="sample-item">
+            <p class="sample-text">"The speed of sound varies depending on the medium, traveling faster through liquids
+              and solids than through air due to differences in density and molecular structure."</p>
+            <audio controls preload="none" src="samples/zs_3_sample_3.wav"></audio>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <!-- Samples Section -->
     <section class="section" id="samples">
-      <h2>Audio Samples</h2>
+      <h2>Audio Samples (Random Speakers)</h2>
       <p class="lead">Each card shows the input text and a playback control</p>
 
       <div class="grid">
@@ -158,7 +517,10 @@
 
         <!-- Sample Card 2 -->
         <article class="card">
-          <p class="prompt">“It was one of those quiet evenings when time seemed to slow down, stretching the seconds into something soft and golden. The street outside was nearly empty, save for the occasional car passing by, its headlights sweeping gently across the walls. Inside, the hum of the refrigerator was the only sound, steady and low, like the background note of a forgotten song”</p>
+          <p class="prompt">“It was one of those quiet evenings when time seemed to slow down, stretching the seconds
+            into something soft and golden. The street outside was nearly empty, save for the occasional car passing by,
+            its headlights sweeping gently across the walls. Inside, the hum of the refrigerator was the only sound,
+            steady and low, like the background note of a forgotten song”</p>
           <div class="meta">
             <span class="pill"><strong>Temp</strong> 0.8</span>
             <span class="pill"><strong>Top‑p</strong> 0.92</span>
@@ -169,7 +531,8 @@
 
         <!-- Sample Card 3 -->
         <article class="card">
-          <p class="prompt">“The old clock in the hallway still chimed every hour, even though nobody in the house listened anymore”</p>
+          <p class="prompt">“The old clock in the hallway still chimed every hour, even though nobody in the house
+            listened anymore”</p>
           <div class="meta">
             <span class="pill"><strong>Temp</strong> 0.80</span>
             <span class="pill"><strong>Top‑p</strong> 0.92</span>
@@ -180,7 +543,8 @@
 
         <!-- Sample Card 4 -->
         <article class="card">
-          <p class="prompt">“But generally, life gives us many things to think about. One of them is credit cards. Did you know credit cards?”</p>
+          <p class="prompt">“But generally, life gives us many things to think about. One of them is credit cards. Did
+            you know credit cards?”</p>
           <div class="meta">
             <span class="pill"><strong>Temp</strong> 0.8</span>
             <span class="pill"><strong>Top‑p</strong> 0.92</span>
@@ -188,9 +552,10 @@
           <label class="sr-only" for="s4">Sample 4</label>
           <audio id="s4" controls preload="none" src="samples/s3.wav"></audio>
         </article>
-		
+
         <article class="card">
-          <p class="prompt">“The president has stated that his policies are superior to that of his opponents, in terms of quantum theory”</p>
+          <p class="prompt">“The president has stated that his policies are superior to that of his opponents, in terms
+            of quantum theory”</p>
           <div class="meta">
             <span class="pill"><strong>Temp</strong> 0.8</span>
             <span class="pill"><strong>Top‑p</strong> 0.92</span>
@@ -198,7 +563,7 @@
           <label class="sr-only" for="s4">Sample 5</label>
           <audio id="s5" controls preload="none" src="samples/s5.wav"></audio>
         </article>
-		
+
         <article class="card">
           <p class="prompt">(The dog ate the transcript)</p>
           <div class="meta">
@@ -208,9 +573,10 @@
           <label class="sr-only" for="s4">Sample 6</label>
           <audio id="s6" controls preload="none" src="samples/s6.wav"></audio>
         </article>
-		
+
         <article class="card">
-          <p class="prompt">“I'll have two number nines, a number nine large, a number six with extra dip, a number seven, two number forty-fives, one with cheese, and a large soda”</p>
+          <p class="prompt">“I'll have two number nines, a number nine large, a number six with extra dip, a number
+            seven, two number forty-fives, one with cheese, and a large soda”</p>
           <div class="meta">
             <span class="pill"><strong>Temp</strong> 0.75</span>
             <span class="pill"><strong>Top‑p</strong> 0.9</span>
@@ -218,8 +584,8 @@
           <label class="sr-only" for="s7">Sample 7</label>
           <audio id="s7" controls preload="none" src="samples/s7.wav"></audio>
         </article>
-		
-		<article class="card">
+
+        <article class="card">
           <p class="prompt">“We have a number champion. It is six seven”</p>
           <div class="meta">
             <span class="pill"><strong>Temp</strong>0.8</span>
@@ -228,15 +594,16 @@
           <label class="sr-only" for="s8">Sample 8</label>
           <audio id="s4" controls preload="none" src="samples/s8.wav"></audio>
         </article>
-		
-		
+
+
       </div>
     </section>
 
     <!-- Footer -->
     <footer>
       <div>© <span id="year"></span> Echolancer.</div>
-      <div class="note">Made with <span aria-label="love" title="love">❤</span> & WebAudio. Replace links, change colors, ship.</div>
+      <div class="note">Made with <span aria-label="love" title="love">❤</span> & WebAudio. Replace links, change
+        colors, ship.</div>
     </footer>
   </div>
 
@@ -245,4 +612,5 @@
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
+
 </html>
